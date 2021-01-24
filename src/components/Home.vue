@@ -1,0 +1,216 @@
+<template>
+  <div>
+  <v-carousel :show-arrows="false" hide-delimiters>
+    <v-carousel-item
+      v-for="(item,i) in items"
+      :key="i"
+      src="@/assets/header_covid.png"
+      reverse-transition="fade-transition"
+      transition="fade-transition"
+      height="100%">
+    <v-sheet
+      color="transparent"
+      height="100%"
+      tile
+    >
+      <v-row
+            class="fill-height"
+            align="center"
+            justify="center"
+          >
+          <div class="text-h2 text-center title">
+            Vacunación en Colombia
+            <div class="text-h6 text-center title-count">
+                Vacunas : {{inicio.toLocaleString()}}
+            </div>
+            </div>
+      </v-row>
+    </v-sheet>
+    </v-carousel-item>
+  </v-carousel>
+  <v-container fluid class=" background-vaccines">
+    <v-row>
+      <v-col>
+        <div class="text-h4 mt-8 text-center title-vaccines">
+          Vacunas adquiridas
+        </div>
+      </v-col>
+    </v-row>
+  </v-container>
+  <v-container fluid class="background-vaccines pl-6">
+      <v-row dense>
+        <v-col cols="12" sm="4" md="4" xs="12" class="pl-6 pr-6">
+          <v-card
+            color="#2779e2"
+            dark
+            class="rounded-xl"
+            elevation="6"
+          >
+            <v-card-title class="text-bold text-center">
+              Pfizer
+            </v-card-title>
+
+            <v-card-subtitle>El Gobierno Nacional firmó el 17 de diciembre el contrato con PFIZER por 10 millones de dosis.</v-card-subtitle>
+
+            <v-card-actions class="text-center ml-2">
+              Cantidad: 10.000.000
+            </v-card-actions>
+          </v-card>
+        </v-col>
+        <v-col cols="12" sm="4" md="4" xs="12" class="pl-6 pr-6">
+          <v-card
+            color="#2779e2"
+            dark
+            class="rounded-xl"
+            elevation="6"
+          >
+            <v-card-title class="text-bold text-center">
+              AstraZeneca
+            </v-card-title>
+
+            <v-card-subtitle>El Gobierno Nacional firmó el 16 de diciembre el contrato con AstraZeneca por 10 millones de dosis.</v-card-subtitle>
+
+            <v-card-actions class="text-center ml-2">
+              Cantidad: 10.000.000
+            </v-card-actions>
+          </v-card>
+        </v-col>
+        <v-col cols="12" sm="4" md="4" xs="12" class="pl-6 pr-6 cols-xs-12">
+          <v-card
+            color="#2779e2"
+            dark
+            class="rounded-xl"
+            elevation="6"
+          >
+            <v-card-title class="text-bold text-center">
+              COVAX
+            </v-card-title>
+
+            <v-card-subtitle>El Gobierno Nacional firmó el 30 de octubre el contrato con COVAX por 20 millones de dosis.</v-card-subtitle>
+
+            <v-card-actions class="ml-2">
+              Cantidad: 20.000.000
+            </v-card-actions>
+          </v-card>
+        </v-col>
+        </v-row>
+      </v-container>
+       <v-container fluid class=" background-vaccines">
+    <v-row>
+      <v-col>
+        <div class="text-h4 mt-8 text-center title-vaccines">
+          Personas vacunadas
+        </div>
+      </v-col>
+    </v-row>
+  </v-container>
+   <v-container fluid class=" background-vaccines">
+    <v-row>
+      <v-col class="ml-10 mr-10 pl-4 pr-4">
+        <v-progress-linear
+      color="blue lighten-2"
+      height="20"
+      buffer-value="0"
+      stream
+    > 0%</v-progress-linear>
+      </v-col>
+    </v-row>
+  </v-container>
+  <v-container fluid class=" background-vaccines">
+    <v-row>
+      <v-col>
+        <div class="text-h4 mt-8 text-center title-vaccines">
+          Datos por municipio
+        </div>
+      </v-col>
+    </v-row>
+  </v-container>
+  <v-container fluid class=" background-vaccines">
+    <v-row>
+      <v-col class="pl-10 pr-10">
+        <v-simple-table >
+    <template v-slot:default>
+      <thead >
+        <tr>
+          <th class="text-center">
+            Departamento
+          </th>
+          <th class="text-center">
+            Cantidad vacunados
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+        class="text-center"
+          v-for="item in departamentos"
+          :key="item.id"
+        >
+          <td>{{ item.departamento }}</td>
+          <td>0</td>
+        </tr>
+      </tbody>
+    </template>
+  </v-simple-table>
+      </v-col>
+    </v-row>
+  </v-container>
+      </div>
+</template>
+
+<script>
+import axios from 'axios'
+export default {
+  name: 'HelloWorld',
+  data: () => ({
+    items: [
+      {
+        src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg'
+      }
+    ],
+    total: 40000000,
+    speed: 200,
+    inicio: 0,
+    departamentos: []
+  }),
+  methods: {
+    updateCount (total, inicio) {
+      const target = +this.total
+      const count = +this.inicio
+      const inc = target / this.speed
+      // console.log(count)
+      if (count < target) {
+        this.inicio = count + inc
+        setTimeout(this.updateCount, 1)
+      } else {
+        this.inicio = this.total
+      }
+    }
+  },
+  beforeMount () {
+    this.updateCount()
+    axios.get('https://raw.githubusercontent.com/marcovega/colombia-json/master/colombia.min.json').then(response => {
+      this.departamentos = response.data
+    }).catch(error => {
+      console.log(error)
+    })
+  }
+}
+</script>
+
+<style scoped>
+.title{
+  font-weight: bold !important;
+  color:#23286b !important;
+}
+.title-count{
+  color:#23286b65 !important;
+}
+.title-vaccines{
+  font-weight: bold !important;
+  color:#23286bda !important;
+}
+.background-vaccines{
+  background-color: #c3d9fd1f;
+}
+</style>

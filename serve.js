@@ -12,6 +12,9 @@ const app= express()
 
 
 app.use('/',serverStatic(path.join(__dirname,'/dist/')))
+app.get(/.*/,(req,res)=>{
+    res.sendfile(__dirname+"/dist/index.html")
+})
 
 const portback=3030
 const port= process.env.PORT || 8080

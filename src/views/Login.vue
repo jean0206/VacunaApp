@@ -28,7 +28,7 @@
       type="error"
       v-if="alert"
     >
-      I'm a dense alert with the <strong>outlined</strong> prop and a <strong>type</strong> of error
+      Credenciales incorrectas, digite de nuevo
     </v-alert>
         </v-card>
       </v-col>

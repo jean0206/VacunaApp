@@ -27,7 +27,7 @@
                   v-for="(item, key) in states"
                   :key="key"
                 >
-                  <td>{{ item.nameState }}{{ key }}</td>
+                  <td>{{ item.nameState }}</td>
                   <td>{{ item.vaccinated }}</td>
                   <td>{{ item.population }}</td>
                   <td>

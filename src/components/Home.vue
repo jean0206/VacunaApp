@@ -138,16 +138,20 @@
           <th class="text-center">
             Cantidad vacunados
           </th>
+          <th class="text-center">
+            Población
+          </th>
         </tr>
       </thead>
       <tbody>
         <tr
         class="text-center"
-          v-for="item in departamentos"
-          :key="item.id"
+          v-for="item in states"
+          :key="item._id"
         >
-          <td>{{ item.departamento }}</td>
-          <td>0</td>
+          <td>{{ item.nameState}}</td>
+          <td>{{item.vaccinated}}</td>
+          <td>{{item.population}}</td>
         </tr>
       </tbody>
     </template>
@@ -160,6 +164,7 @@
 
 <script>
 import axios from 'axios'
+import apiRoute from '../lib/routeApi'
 export default {
   name: 'HelloWorld',
   data: () => ({
@@ -171,7 +176,8 @@ export default {
     total: 40000000,
     speed: 200,
     inicio: 0,
-    departamentos: []
+    states: [],
+    url:apiRoute.apiRoute
   }),
   methods: {
     updateCount (total, inicio) {
@@ -189,8 +195,9 @@ export default {
   },
   beforeMount () {
     this.updateCount()
-    axios.get('https://raw.githubusercontent.com/marcovega/colombia-json/master/colombia.min.json').then(response => {
-      this.departamentos = response.data
+    axios.get(this.url+'/state').then(response => {
+      this.states = response.data.states
+      console.log(this.states)
     }).catch(error => {
       console.log(error)
     })

@@ -1,5 +1,6 @@
 <template>
   <v-app >
+
         <v-app-bar
       absolute
       color="white"
@@ -16,13 +17,15 @@
         <v-icon>mdi-github</v-icon>
       </v-btn>
 
-      <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
+
+      <v-btn @click="logout" v-if="this.$router.currentRoute.path=='/dashboard'" icon>
+        <v-icon>mdi-logout</v-icon>
       </v-btn>
     </v-app-bar>
     <v-main>
-      <Home/>
+      <router-view/>
     </v-main>
+
      <v-footer
      class="mt-6"
     color="primary lighten-1"
@@ -33,14 +36,12 @@
       no-gutters
     >
       <v-btn
-        v-for="link in links"
-        :key="link"
         color="white"
         text
         rounded
         class="my-2"
       >
-        {{ link }}
+    
       </v-btn>
       <v-col
         class="primary lighten-2 py-4 text-center white--text"
@@ -55,6 +56,7 @@
 
 <script>
 import Home from './components/Home'
+import axios from 'axios'
 
 export default {
   name: 'App',
@@ -64,10 +66,21 @@ export default {
   },
 
   data: () => ({
-    //
-  })
+    url:'http://127.0.0.1:3030',
+  }),
+  methods:{
+    logout(){
+      document.cookie="token="
+      localStorage.removeItem('user')
+      this.$router.push('/')
+    }
+  },
+  beforeMount(){
+    axios.get(
+      this.url+'/state').then(response=>{console.log(response.data)})
+  }
 }
 </script>
-
+  
 <style scoped>
 </style>

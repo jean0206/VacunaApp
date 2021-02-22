@@ -3,10 +3,21 @@
 
         <v-app-bar
       absolute
+      flat
       color="white"
       elevate-on-scroll
       scroll-target="#scrolling-techniques-7"
     >
+    <v-btn v-if="this.$router.currentRoute.path=='/vaccines'" to="/dashboard" outlined color="primary">
+      <span>Departamentos</span>
+
+      <v-icon>mdi-map-marker</v-icon>
+    </v-btn>
+    <v-btn v-if="this.$router.currentRoute.path=='/dashboard'" to="/vaccines" outlined color="primary">
+      <span>Vacunas</span>
+
+      <v-icon>mdi-map-marker</v-icon>
+    </v-btn>
       <v-spacer></v-spacer>
 
       <v-btn icon>
@@ -18,7 +29,7 @@
       </v-btn>
 
 
-      <v-btn @click="logout" v-if="this.$router.currentRoute.path=='/dashboard'" icon>
+      <v-btn @click="logout" v-if="this.$router.currentRoute.path=='/dashboard' || this.$router.currentRoute.path=='/vaccines'" icon>
         <v-icon>mdi-logout</v-icon>
       </v-btn>
     </v-app-bar>

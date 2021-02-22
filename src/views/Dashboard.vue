@@ -108,7 +108,6 @@ export default {
     editItem(index) {
       this.dialog = true;
       this.stateEdit = Object.assign({}, this.states[index]);
-      console.log(this.stateEdit);
     },
     async editState() {
       const options = {
@@ -125,7 +124,6 @@ export default {
           options
         )
         .then(async response => {
-          console.log(response.data);
           this.dialog = false;
           await axios
             .get(this.url + "/state/editable", options)
@@ -135,14 +133,12 @@ export default {
                 this.$router.push("/login");
               } else {
                 this.states = response.data["states"];
-                console.log(this.states);
               }
             })
             .catch(error => {
               console.log(error.message);
             });
         });
-      console.log("ajsad");
     }
   },
   async beforeMount() {
@@ -161,7 +157,6 @@ export default {
             this.$router.push("/login");
           } else {
             this.states = response.data["states"];
-            console.log(this.states);
           }
         })
         .catch(error => {

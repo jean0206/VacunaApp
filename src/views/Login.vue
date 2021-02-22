@@ -59,7 +59,7 @@ export default {
                 if (auth){
                     document.cookie='token='+response.data['token']
                     localStorage.setItem('user',response.data['user'])
-                    console.log(response.data)
+             
                     this.$router.push('/dashboard')
                 }else{
                     this.alert=true

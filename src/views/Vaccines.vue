@@ -75,11 +75,17 @@
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
 
-                  <v-btn @click="deleteVaccine(key)" style="margin-left:2%" color="error" fab small dark>
+                  <v-btn
+                    @click="deleteVaccine(key)"
+                    style="margin-left:2%"
+                    color="error"
+                    fab
+                    small
+                    dark
+                  >
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
                 </v-card>
-                
               </v-col>
             </v-row>
           </v-container>
@@ -87,58 +93,58 @@
         </v-col>
       </v-row>
       <v-dialog v-model="dialog" persistent max-width="344">
-      <v-card class="mx-auto" max-width="344" outlined>
-            <v-list-item three-line>
-              <v-list-item-content>
-                <div class="overline mb-4">
-                  Editar vacuna
-                </div>
+        <v-card class="mx-auto" max-width="344" outlined>
+          <v-list-item three-line>
+            <v-list-item-content>
+              <div class="overline mb-4">
+                Editar vacuna
+              </div>
 
-                <v-text-field
-                  v-model="editVaccine.name"
-                  dense
-                  label="Nombre"
-                  outlined
-                ></v-text-field>
-                <v-textarea
-                  outlined
-                  v-model="editVaccine.description"
-                  name="input-7-4"
-                  label="Descripción"
-                ></v-textarea>
-                <v-text-field
-                  v-model="editVaccine.dose"
-                  type="number"
-                  dense
-                  label="Dosis"
-                  outlined
-                ></v-text-field>
-                <v-text-field
-                  v-model="editVaccine.origin"
-                  dense
-                  label="Pais de origen"
-                  outlined
-                ></v-text-field>
-                <v-text-field
-                  v-model="editVaccine.amount"
-                  type="number"
-                  dense
-                  label="Cantidad adquirida"
-                  outlined
-                ></v-text-field>
-              </v-list-item-content>
-            </v-list-item>
+              <v-text-field
+                v-model="editVaccine.name"
+                dense
+                label="Nombre"
+                outlined
+              ></v-text-field>
+              <v-textarea
+                outlined
+                v-model="editVaccine.description"
+                name="input-7-4"
+                label="Descripción"
+              ></v-textarea>
+              <v-text-field
+                v-model="editVaccine.dose"
+                type="number"
+                dense
+                label="Dosis"
+                outlined
+              ></v-text-field>
+              <v-text-field
+                v-model="editVaccine.origin"
+                dense
+                label="Pais de origen"
+                outlined
+              ></v-text-field>
+              <v-text-field
+                v-model="editVaccine.amount"
+                type="number"
+                dense
+                label="Cantidad adquirida"
+                outlined
+              ></v-text-field>
+            </v-list-item-content>
+          </v-list-item>
 
-            <v-card-actions class="">
-              <v-btn class="ma-2" color="primary" @click="putVaccine(key)">
-                Editar
-              </v-btn>
-              <v-btn class="ma-2" color="error" @click="dialog=!dialog">
-                Cancelar
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-    </v-dialog>
+          <v-card-actions class="">
+            <v-btn class="ma-2" color="primary" @click="putVaccine(key)">
+              Editar
+            </v-btn>
+            <v-btn class="ma-2" color="error" @click="dialog = !dialog">
+              Cancelar
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-container>
   </div>
 </template>
@@ -146,8 +152,6 @@
 <script>
 import axios from "axios";
 import routeApi from "../lib/routeApi";
-
-
 
 export default {
   data: () => ({
@@ -157,10 +161,10 @@ export default {
       description: "",
       dos: 0,
       origin: "",
-      amount: 0,
+      amount: 0
     },
     editVaccine: {},
-    dialog:false,
+    dialog: false,
     url: routeApi.apiRoute
   }),
   methods: {
@@ -195,8 +199,7 @@ export default {
           options
         )
         .then(response => {
-          this.vacunas = (response.data);
-          console.log(response.data);
+          this.vacunas = response.data;
         });
       this.newVaccine = {
         name: "",
@@ -206,37 +209,48 @@ export default {
         amount: ""
       };
     },
-    deleteVaccine(index){
+    deleteVaccine(index) {
       const options = {
         headers: { "x-access-token": this.readCookie("token") }
       };
-      console.log(this.vacunas[index]._id)
-      axios.post(this.url+'/vaccine/delete',{
-        id:this.vacunas[index]._id
-      },options).then(response=>{
-        this.vacunas = response.data
-        console.log(response.data)
-      })
-    }, edit(index){
-      this.editVaccine = this.vacunas[index]
-      this.dialog = true
+
+      axios
+        .post(
+          this.url + "/vaccine/delete",
+          {
+            id: this.vacunas[index]._id
+          },
+          options
+        )
+        .then(response => {
+          this.vacunas = response.data;
+        });
     },
-    putVaccine(){
+    edit(index) {
+      this.editVaccine = this.vacunas[index];
+      this.dialog = true;
+    },
+    putVaccine() {
       const options = {
         headers: { "x-access-token": this.readCookie("token") }
       };
-      axios.post(this.url+'/vaccine/edit',{
-        _id: this.editVaccine._id,
-        name: this.editVaccine.name,
-        description: this.editVaccine.description,
-        dose: this.editVaccine.dose,
-        origin: this.editVaccine.origin,
-        amount: this.editVaccine.amount
-      },options).then(response=>{
-        this.vacunas = response.data
-        this.dialog = false
-        })
-      console.log(this.editVaccine)
+      axios
+        .post(
+          this.url + "/vaccine/edit",
+          {
+            _id: this.editVaccine._id,
+            name: this.editVaccine.name,
+            description: this.editVaccine.description,
+            dose: this.editVaccine.dose,
+            origin: this.editVaccine.origin,
+            amount: this.editVaccine.amount
+          },
+          options
+        )
+        .then(response => {
+          this.vacunas = response.data;
+          this.dialog = false;
+        });
     }
   },
   beforeMount() {

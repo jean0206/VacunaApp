@@ -32,26 +32,31 @@
     </v-container>
     <v-container fluid class="background-vaccines pl-6">
       <v-row dense class="" align="center" justify="center">
-        <v-col v-for="(vac,key) in vaccines" :key="key" cols="12" sm="4" md="4" xs="12" class="pl-6 pr-6">
+        <v-col
+          v-for="(vac, key) in vaccines"
+          :key="key"
+          cols="12"
+          sm="4"
+          md="4"
+          xs="12"
+          class="pl-6 pr-6"
+        >
           <v-card color="#2779e2" dark class="rounded-xl" elevation="6">
-     
-               <v-card-title class="text-bold ">
-              {{vac.name}}
+            <v-card-title class="text-bold ">
+              {{ vac.name }}
             </v-card-title>
-           
-           
+
             <div style="margin-top:-4%">
               <v-card-actions class="text-center ml-2">
-              Cantidad adquiridad : {{vac.amount.toLocaleString()}} dosis
-            </v-card-actions>
-            <v-card-actions class="text-center ml-2">
-              Dosis por persona : {{vac.dose}}
-            </v-card-actions>
-            <v-card-actions class="text-center ml-2">
-              Paise de origen : {{vac.origin}}
-            </v-card-actions>
+                Cantidad adquiridad : {{ vac.amount.toLocaleString() }} dosis
+              </v-card-actions>
+              <v-card-actions class="text-center ml-2">
+                Dosis por persona : {{ vac.dose }}
+              </v-card-actions>
+              <v-card-actions class="text-center ml-2">
+                Paise de origen : {{ vac.origin }}
+              </v-card-actions>
             </div>
-            
           </v-card>
         </v-col>
       </v-row>
@@ -71,10 +76,10 @@
           <v-progress-linear
             color="blue lighten-2"
             height="20"
-            :buffer-value=percenteg
+            :buffer-value="percenteg"
             stream
           >
-            {{percenteg}}%</v-progress-linear
+            {{ percenteg }}%</v-progress-linear
           >
         </v-col>
       </v-row>
@@ -82,13 +87,14 @@
     <v-container fluid class=" background-vaccines">
       <v-row>
         <v-col>
-          <div align="center" justify="center"
-  >
-    <div style=" width:42%; border: solid;"  class="text-h4 mt-8 text-center title-vaccines">
-            Dosis aplicadas: {{counter}}
+          <div align="center" justify="center">
+            <div
+              style=" width:42%; border: solid;"
+              class="text-h4 mt-8 text-center title-vaccines"
+            >
+              Dosis aplicadas: {{ counter }}
+            </div>
           </div>
-  </div>
-          
         </v-col>
       </v-row>
     </v-container>
@@ -152,8 +158,8 @@ export default {
     states: [],
     url: apiRoute.apiRoute,
     vaccines: [],
-    counter:0,
-    percenteg:0,
+    counter: 0,
+    percenteg: 0,
     population: 50300000
   }),
   methods: {
@@ -172,17 +178,12 @@ export default {
     async getVaccines() {
       await axios.get(this.url + "/vaccine/").then(response => {
         this.vaccines = response.data;
-        console.log("hola");
-        console.log(this.vaccines);
       });
     }
   },
   async beforeMount() {
-    console.log("hoawa");
     await this.getVaccines();
     for (let vaccine in this.vaccines) {
-      console.log("hola");
-      console.log(this.vaccines[vaccine].amount);
       this.total += this.vaccines[vaccine].amount;
     }
     this.updateCount();
@@ -194,12 +195,11 @@ export default {
       .catch(error => {
         console.log(error);
       });
-    
-    for (let state in this.states){
-        this.counter+= this.states[state].vaccinated
+
+    for (let state in this.states) {
+      this.counter += this.states[state].vaccinated;
     }
-    this.percenteg = ((this.counter/this.population) * 100).toFixed(1)
-    console.log("Couter"+this.counter)
+    this.percenteg = ((this.counter / this.population) * 100).toFixed(1);
   }
 };
 </script>
